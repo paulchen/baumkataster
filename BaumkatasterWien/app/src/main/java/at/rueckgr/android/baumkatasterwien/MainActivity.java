@@ -6,12 +6,12 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             LatLng northeast = latLngBounds.northeast;
             LatLng southwest = latLngBounds.southwest;
 
-            String urlString = String.format("https://rueckgr.at/~paulchen/baeume.php?bbox=%s,%s,%s,%s",
+            String urlString = String.format("https://android.rueckgr.at/baumkataster/baeume.php?bbox=%s,%s,%s,%s",
                     southwest.latitude, southwest.longitude, northeast.latitude, northeast.longitude);
 
             new NetworkTask(this).execute(urlString);
