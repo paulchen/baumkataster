@@ -11,12 +11,17 @@ $csv = new Csv();
 $csv->parse('BAUMKATOGD.csv');
 #$csv->parse('test.csv');
 
-$query = "INSERT INTO baumkataster ($columns) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$columns_array = explode(',', $columns);
+$placeholders = preg_replace('/[^,]+/', '?', $columns);
 
-db_query('TRUNCATE TABLE baumkataster');
+$query = "INSERT INTO baumkataster ($columns) VALUES ($placeholders) ON DUPLICATE KEY UPDATE ";
+$query .= implode(', ', array_map(function($column) { return "$column = ?"; }, explode(',', $columns)));
 
 $db->beginTransaction();
+$index = 0;
 foreach($csv->rows as $row) {
+	$index++;
+	print("$index\n");
 	if($row[0] == 'FID') {
 		continue;
 	}
@@ -28,6 +33,11 @@ foreach($csv->rows as $row) {
 	$parts = explode(' ', $shape);
 	$row[] = trim($parts[0]);
 	$row[] = trim($parts[1]);
+
+	$columns_count = count($row);
+	for($a=0; $a<$columns_count; $a++) {
+		$row[] = $row[$a];
+	}
 
 	db_query($query, $row);
 }
