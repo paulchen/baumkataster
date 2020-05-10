@@ -55,5 +55,7 @@ $db->commit();
 
 unlink($filename);
 
+touch($status_file);
+
 echo("Done\n");
 

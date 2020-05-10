@@ -3,4 +3,5 @@ $db_name = 'baumkataster';
 $db_host = 'localhost';
 $db_user = 'baumkataster';
 $db_password = 'CHANGEME';
+$status_file = 'last_update';
 
