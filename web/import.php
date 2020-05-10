@@ -11,14 +11,11 @@ $csv = new Csv();
 $csv->parse('BAUMKATOGD.csv');
 #$csv->parse('test.csv');
 
-$query = "INSERT INTO baumkataster ($columns) VALUES ";
-
-$params_one_row = "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$query = "INSERT INTO baumkataster ($columns) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 db_query('TRUNCATE TABLE baumkataster');
 
-$params = array();
-$params_all_rows = array();
+$db->beginTransaction();
 foreach($csv->rows as $row) {
 	if($row[0] == 'FID') {
 		continue;
@@ -32,22 +29,7 @@ foreach($csv->rows as $row) {
 	$row[] = trim($parts[0]);
 	$row[] = trim($parts[1]);
 
-	$params_all_rows[] = $params_one_row;
-	foreach($row as $item) {
-		$params[] = $item;
-	}
-
-	if(count($params_all_rows) == 1000) {
-		$complete_query = $query . implode(', ', $params_all_rows);
-		db_query($complete_query, $params);
-
-		$params = array();
-		$params_all_rows = array();
-	}
+	db_query($query, $row);
 }
-
-if(count($params) > 0) {
-	$complete_query = $query . implode(', ', $params_all_rows);
-	db_query($complete_query, $params);
-}
+$db->commit();
 
