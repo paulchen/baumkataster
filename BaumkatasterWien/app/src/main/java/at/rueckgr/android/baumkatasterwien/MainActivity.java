@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             LatLng northeast = latLngBounds.northeast;
             LatLng southwest = latLngBounds.southwest;
 
-            String urlString = String.format("https://rueckgr.at/~paulchen/baeume.php?bbox=%s,%s,%s,%s",
+            String urlString = String.format("https://android.rueckgr.at/baumkataster/baeume.php?bbox=%s,%s,%s,%s",
                     southwest.latitude, southwest.longitude, northeast.latitude, northeast.longitude);
 
             new NetworkTask(this).execute(urlString);
