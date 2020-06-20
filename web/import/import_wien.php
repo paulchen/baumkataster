@@ -45,7 +45,5 @@ foreach($csv->rows as $row) {
 }
 $db->commit();
 
-touch($status_file);
-
 echo("Done\n");
 

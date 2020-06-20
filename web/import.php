@@ -10,4 +10,5 @@ foreach(scandir('import') as $file) {
 	require_once("import/$file");
 }
 
+touch($status_file);
 
