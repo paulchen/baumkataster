@@ -1,8 +1,8 @@
 <?php
 
-chdir(dirname(__FILE__));
+chdir(dirname(__FILE__) . '/../');
 
-require_once('../common.php');
+require_once('common.php');
 require_once('import/Csv.class.php');
 
 function create_name($gattung, $art, $sorte, $name_deutsch) {
@@ -31,7 +31,7 @@ function get_treetop_diameter($diameter) {
 
 $columns = 'BAUM_ID,GATTUNG_ART,STAMMUMFANG,STAMMUMFANG_TXT,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,BAUMNUMMER,lon,lat,source';
 
-echo("Downloading data\n");
+echo("[Linz] Downloading data\n");
 $data = file_get_contents('http://data.linz.gv.at/katalog/umwelt/baumkataster/2020/FME_BaumdatenBearbeitet_OGD_20200225.csv');
 if(!$data) {
 	echo("Error downloading data\n");
@@ -39,7 +39,7 @@ if(!$data) {
 }
 $data = iconv('ISO-8859-1', 'UTF-8', $data);
 
-echo("Parsing data\n");
+echo("[Linz] Parsing data\n");
 
 $csv = new Csv();
 $csv->separator = ';';
@@ -52,7 +52,7 @@ $placeholders = preg_replace('/[^,]+/', '?', $columns);
 $query = "INSERT INTO baumkataster ($columns) VALUES ($placeholders) ON DUPLICATE KEY UPDATE ";
 $query .= implode(', ', array_map(function($column) { return "$column = ?"; }, explode(',', $columns)));
 
-echo("Importing data\n");
+echo("[Linz] Importing data\n");
 
 $db->beginTransaction();
 foreach($csv->rows as $row) {
@@ -83,5 +83,5 @@ foreach($csv->rows as $row) {
 }
 $db->commit();
 
-echo("Done\n");
+echo("[Linz] Done\n");
 
