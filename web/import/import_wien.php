@@ -1,9 +1,9 @@
 <?php
 
-chdir(dirname(__FILE__) . '/../');
+chdir(dirname(__FILE__));
 
-require_once('common.php');
-require_once('Csv.class.php');
+require_once('../common.php');
+require_once('import/Csv.class.php');
 
 $columns = 'FID,OBJECTID,SHAPE,BAUM_ID,DATENFUEHRUNG,BEZIRK,OBJEKT_STRASSE,GEBIETSGRUPPE,GATTUNG_ART,PFLANZJAHR,PFLANZJAHR_TXT,STAMMUMFANG,STAMMUMFANG_TXT,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,BAUMNUMMER,SE_ANNO_CAD_DATA,lon,lat,source';
 
