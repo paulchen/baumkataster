@@ -12,10 +12,13 @@ class Csv {
       throw new Exception('Die Anzahl an Spaltennamen entspricht nicht der Anzahl an Validatoren');
     }
 
+    $this->parse_data(file_get_contents($filename));
+  }
+
+  public function parse_data($file_contents) {
     $this->rows = array();
-    $file_contents = file($filename);
     $line_count = 0;
-    foreach($file_contents as $line) {
+    foreach(explode("\n", str_replace("\r", "\n", $file_contents)) as $line) {
       $line_count++;
       if(trim($line) == '') {
         continue;

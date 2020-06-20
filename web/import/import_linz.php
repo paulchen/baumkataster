@@ -32,21 +32,19 @@ function get_treetop_diameter($diameter) {
 $columns = 'BAUM_ID,GATTUNG_ART,STAMMUMFANG,STAMMUMFANG_TXT,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,BAUMNUMMER,lon,lat,source';
 
 echo("Downloading data\n");
-$filename = tempnam('/tmp', 'baumkataster_');
 $data = file_get_contents('http://data.linz.gv.at/katalog/umwelt/baumkataster/2020/FME_BaumdatenBearbeitet_OGD_20200225.csv');
 if(!$data) {
 	echo("Error downloading data\n");
 	die(1);
 }
 $data = iconv('ISO-8859-1', 'UTF-8', $data);
-file_put_contents($filename, $data);
-unset($data);
 
 echo("Parsing data\n");
 
 $csv = new Csv();
 $csv->separator = ';';
-$csv->parse($filename);
+$csv->parse_data($data);
+unset($data);
 
 $columns_array = explode(',', $columns);
 $placeholders = preg_replace('/[^,]+/', '?', $columns);
@@ -58,7 +56,6 @@ echo("Importing data\n");
 
 $db->beginTransaction();
 foreach($csv->rows as $row) {
-	print_r($row);
 	if($row[0] == 'Flaeche') {
 		continue;
 	}
@@ -85,8 +82,6 @@ foreach($csv->rows as $row) {
 	db_query($query, $new);
 }
 $db->commit();
-
-unlink($filename);
 
 touch($status_file);
 
