@@ -1,11 +1,11 @@
 <?php
 
-chdir(dirname(__FILE__));
+chdir(dirname(__FILE__) . '/../');
 
 require_once('common.php');
 require_once('Csv.class.php');
 
-$columns = 'FID,OBJECTID,SHAPE,BAUM_ID,DATENFUEHRUNG,BEZIRK,OBJEKT_STRASSE,GEBIETSGRUPPE,GATTUNG_ART,PFLANZJAHR,PFLANZJAHR_TXT,STAMMUMFANG,STAMMUMFANG_TXT,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,BAUMNUMMER,SE_ANNO_CAD_DATA,lon,lat';
+$columns = 'FID,OBJECTID,SHAPE,BAUM_ID,DATENFUEHRUNG,BEZIRK,OBJEKT_STRASSE,GEBIETSGRUPPE,GATTUNG_ART,PFLANZJAHR,PFLANZJAHR_TXT,STAMMUMFANG,STAMMUMFANG_TXT,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,BAUMNUMMER,SE_ANNO_CAD_DATA,lon,lat,source';
 
 echo("Downloading data\n");
 $filename = tempnam('/tmp', 'baumkataster_');
@@ -43,6 +43,8 @@ foreach($csv->rows as $row) {
 	$parts = explode(' ', $shape);
 	$row[] = trim($parts[0]);
 	$row[] = trim($parts[1]);
+
+	$row[] = 'WIEN';
 
 	$columns_count = count($row);
 	for($a=0; $a<$columns_count; $a++) {
