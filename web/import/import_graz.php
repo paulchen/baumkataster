@@ -36,7 +36,7 @@ function create_urls() {
 function process_tree($feature) {
 	$attrs = $feature->attributes;
 
-	$columns = 'BAUM_ID,GATTUNG_ART,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,PFLANZJAHR,lon,lat,source';
+	$columns = 'BAUM_ID,GATTUNG_ART,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,PFLANZJAHR,lon,lat,source,outdated';
 	$columns_array = explode(',', $columns);
 	$placeholders = preg_replace('/[^,]+/', '?', $columns);
 
@@ -60,6 +60,7 @@ function process_tree($feature) {
 	$row[] = $feature->geometry->x;
 	$row[] = $feature->geometry->y;
 	$row[] = 'GRAZ';
+	$row[] = 0;
 
 	$columns_count = count($row);
 	for($a=0; $a<$columns_count; $a++) {

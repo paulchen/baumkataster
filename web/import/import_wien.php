@@ -5,7 +5,7 @@ chdir(dirname(__FILE__) . '/../');
 require_once('common.php');
 require_once('import/Csv.class.php');
 
-$columns = 'FID,OBJECTID,SHAPE,BAUM_ID,DATENFUEHRUNG,BEZIRK,OBJEKT_STRASSE,GEBIETSGRUPPE,GATTUNG_ART,PFLANZJAHR,PFLANZJAHR_TXT,STAMMUMFANG,STAMMUMFANG_TXT,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,BAUMNUMMER,SE_ANNO_CAD_DATA,lon,lat,source';
+$columns = 'FID,OBJECTID,SHAPE,BAUM_ID,DATENFUEHRUNG,BEZIRK,OBJEKT_STRASSE,GEBIETSGRUPPE,GATTUNG_ART,PFLANZJAHR,PFLANZJAHR_TXT,STAMMUMFANG,STAMMUMFANG_TXT,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,BAUMNUMMER,SE_ANNO_CAD_DATA,lon,lat,source,outdated';
 
 echo("[Wien] Downloading and parsing data\n");
 
@@ -35,6 +35,7 @@ foreach($csv->rows as $row) {
 	$row[] = trim($parts[1]);
 
 	$row[] = 'WIEN';
+	$row[] = '0';
 
 	$columns_count = count($row);
 	for($a=0; $a<$columns_count; $a++) {

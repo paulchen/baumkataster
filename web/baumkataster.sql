@@ -49,7 +49,8 @@ CREATE TABLE `baumkataster` (
   `SE_ANNO_CAD_DATA` varchar(100),
   `lat` double NOT NULL,
   `lon` double NOT NULL,
-  `source` varchar(10) NOT NULL
+  `source` varchar(10) NOT NULL,
+  `outdated` boolean NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

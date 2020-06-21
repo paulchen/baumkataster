@@ -19,7 +19,7 @@ function create_name($gattung, $art, $sorte, $name_deutsch) {
 	return $text;
 }
 
-$columns = 'BAUM_ID,GATTUNG_ART,STAMMUMFANG,STAMMUMFANG_TXT,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,BAUMNUMMER,lon,lat,source';
+$columns = 'BAUM_ID,GATTUNG_ART,STAMMUMFANG,STAMMUMFANG_TXT,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,BAUMNUMMER,lon,lat,source,outdated';
 
 echo("[Linz] Downloading data\n");
 $data = file_get_contents('http://data.linz.gv.at/katalog/umwelt/baumkataster/2020/FME_BaumdatenBearbeitet_OGD_20200225.csv');
@@ -63,6 +63,7 @@ foreach($csv->rows as $row) {
 	$new[] = $row[12];
 	$new[] = $row[13];
 	$new[] = 'LINZ';
+	$new[] = 0;
 
 	$columns_count = count($new);
 	for($a=0; $a<$columns_count; $a++) {

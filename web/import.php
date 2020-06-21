@@ -2,6 +2,10 @@
 
 chdir(dirname(__FILE__));
 
+require_once('common.php');
+
+db_query('UPDATE baumkataster SET outdated = 1');
+
 foreach(scandir('import') as $file) {
 	if(substr($file, 0, 7) != 'import_') {
 		continue;
@@ -9,6 +13,12 @@ foreach(scandir('import') as $file) {
 
 	require_once("import/$file");
 }
+
+$data = db_query('SELECT COUNT(*) outdated FROM baumkataster WHERE outdated = 1');
+$count = $data[0]['outdated'];
+echo("Deleting $count outdated records\n");
+
+db_query('DELETE FROM baumkataster WHERE outdated = 1');
 
 touch($status_file);
 
