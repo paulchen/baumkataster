@@ -83,16 +83,6 @@ function parse_data($url, $data) {
 	}
 }
 
-function get_height_index($height) {
-	$height = ceil($height/5);
-	return min($height, 8);
-}
-
-function get_treetop_diameter($diameter) {
-	$diameter = ceil($diameter/3);
-	return min($diameter, 8);
-}
-
 echo("[Graz] Downloading and importing data\n");
 $urls = create_urls();
 

@@ -80,4 +80,13 @@ function db_error($error, $stacktrace, $query, $parameters) {
 	die();
 }
 
+function get_height_index($height) {
+	$height = ceil($height/5);
+	return min($height, 8);
+}
+
+function get_treetop_diameter($diameter) {
+	$diameter = ceil($diameter/3);
+	return min($diameter, 8);
+}
 
