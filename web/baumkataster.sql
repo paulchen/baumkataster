@@ -39,13 +39,13 @@ CREATE TABLE `baumkataster` (
   `GATTUNG_ART` tinytext NOT NULL,
   `PFLANZJAHR` varchar(100),
   `PFLANZJAHR_TXT` varchar(100),
-  `STAMMUMFANG` varchar(100) NOT NULL,
-  `STAMMUMFANG_TXT` varchar(100) NOT NULL,
+  `STAMMUMFANG` varchar(100),
+  `STAMMUMFANG_TXT` varchar(100),
   `BAUMHOEHE` varchar(100) NOT NULL,
   `BAUMHOEHE_TXT` varchar(100) NOT NULL,
   `KRONENDURCHMESSER` varchar(100) NOT NULL,
   `KRONENDURCHMESSER_TXT` varchar(100) NOT NULL,
-  `BAUMNUMMER` varchar(100) NOT NULL,
+  `BAUMNUMMER` varchar(100),
   `SE_ANNO_CAD_DATA` varchar(100),
   `lat` double NOT NULL,
   `lon` double NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE `baumkataster` (
 -- Indizes für die Tabelle `baumkataster`
 --
 ALTER TABLE `baumkataster`
-  ADD PRIMARY KEY (`BAUM_ID`),
+  ADD PRIMARY KEY (`BAUM_ID`, `source`),
   ADD KEY `lat` (`lat`),
   ADD KEY `lon` (`lon`);
 COMMIT;
