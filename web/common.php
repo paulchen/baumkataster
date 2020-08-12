@@ -5,6 +5,7 @@ chdir(dirname(__FILE__));
 require_once('config.php');
 
 $db = new PDO("mysql:dbname=$db_name;host=$db_host", $db_user, $db_password);
+$db->setAttribute(PDO::ATTR_AUTOCOMMIT, false);
 db_query('SET NAMES utf8');
 
 unset($db_name);

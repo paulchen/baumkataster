@@ -90,18 +90,22 @@ $urls = create_urls();
 $counter = 0;
 $total = count($urls);
 
-$db->beginTransaction();
-
 foreach($urls as $url) {
 	$counter++;
 	log_info("[Graz] Processing row $counter/$total");
 
 	$data = file_get_contents($url);
+	if($data === false) {
+		log_info("[Graz] Could not download $url, aborting...");
+		$error = 1;
+		break;
+	}
 	parse_data($url, $data);
 
 	sleep(.1);
 }
-$db->commit();
 
-log_info("[Graz] Done");
+if(!$error) {
+	log_info("[Graz] Done");
+}
 
