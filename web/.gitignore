@@ -1,3 +1,4 @@
 config.php
 last_update
+log/*.log*
 

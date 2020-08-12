@@ -78,13 +78,13 @@ function parse_data($url, $data) {
 	}
 
 	$features = $json->features;
-	echo('[Graz] Number of trees: ' . count($features) . "\n");
+	log_info('[Graz] Number of trees: ' . count($features));
 	foreach($features as $feature) {
 		process_tree($feature);
 	}
 }
 
-echo("[Graz] Downloading and importing data\n");
+log_info("[Graz] Downloading and importing data");
 $urls = create_urls();
 
 $counter = 0;
@@ -94,7 +94,7 @@ $db->beginTransaction();
 
 foreach($urls as $url) {
 	$counter++;
-	echo("[Graz] Processing row $counter/$total\n");
+	log_info("[Graz] Processing row $counter/$total");
 
 	$data = file_get_contents($url);
 	parse_data($url, $data);
@@ -103,5 +103,5 @@ foreach($urls as $url) {
 }
 $db->commit();
 
-echo("[Graz] Done\n");
+log_info("[Graz] Done");
 

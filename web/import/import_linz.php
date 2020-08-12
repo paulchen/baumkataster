@@ -21,15 +21,15 @@ function create_name($gattung, $art, $sorte, $name_deutsch) {
 
 $columns = 'BAUM_ID,GATTUNG_ART,STAMMUMFANG,STAMMUMFANG_TXT,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,BAUMNUMMER,lon,lat,source,outdated';
 
-echo("[Linz] Downloading data\n");
+log_info("[Linz] Downloading data");
 $data = file_get_contents('http://data.linz.gv.at/katalog/umwelt/baumkataster/2020/FME_BaumdatenBearbeitet_OGD_20200225.csv');
 if(!$data) {
-	echo("Error downloading data\n");
+	log_info("Error downloading data");
 	die(1);
 }
 $data = iconv('ISO-8859-1', 'UTF-8', $data);
 
-echo("[Linz] Parsing data\n");
+log_info("[Linz] Parsing data");
 
 $csv = new Csv();
 $csv->separator = ';';
@@ -42,7 +42,7 @@ $placeholders = preg_replace('/[^,]+/', '?', $columns);
 $query = "INSERT INTO baumkataster ($columns) VALUES ($placeholders) ON DUPLICATE KEY UPDATE ";
 $query .= implode(', ', array_map(function($column) { return "$column = ?"; }, explode(',', $columns)));
 
-echo("[Linz] Importing data\n");
+log_info("[Linz] Importing data");
 
 $db->beginTransaction();
 foreach($csv->rows as $row) {
@@ -74,5 +74,5 @@ foreach($csv->rows as $row) {
 }
 $db->commit();
 
-echo("[Linz] Done\n");
+log_info("[Linz] Done");
 

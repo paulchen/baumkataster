@@ -10,6 +10,17 @@ db_query('SET NAMES utf8');
 unset($db_name);
 unset($db_host);
 
+function log_info($message) {
+	global $log;
+
+	if(!isset($log)) {
+		$log = fopen('log/baumkataster.log', 'a');
+	}
+
+	$date = date('[Y-m-d H:i:s]');
+	fprintf($log, "$date - $message\n");
+}
+
 function db_query_single($query, $parameters = array()) {
 	$data = db_query($query, $parameters);
 	if(count($data) == 0) {
