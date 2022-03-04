@@ -55,10 +55,22 @@ else {
 		$new[] = create_name($row[2], $row[3], $row[4], $row[5]);
 		$new[] = $row[8];
 		$new[] = $row[8] . ' cm';
-		$new[] = get_height_index($row[6]);
-		$new[] = $row[6] . ' m';
-		$new[] = get_treetop_diameter($row[7]);
-		$new[] = $row[7] . ' m';
+		if (trim($row[6]) != '') {
+			$new[] = get_height_index($row[6]);
+			$new[] = $row[6] . ' m';
+		}
+		else {
+			$new[] = '0';
+			$new[] = '';
+		}
+		if (trim($row[7]) != '') {
+			$new[] = get_treetop_diameter($row[7]);
+			$new[] = $row[7] . ' m';
+		}
+		else {
+			$new[] = '0';
+			$new[] = '';
+		}
 		$new[] = $row[1];
 		$new[] = $row[12];
 		$new[] = $row[13];
