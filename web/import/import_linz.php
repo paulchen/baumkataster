@@ -22,7 +22,7 @@ function create_name($gattung, $art, $sorte, $name_deutsch) {
 $columns = 'BAUM_ID,GATTUNG_ART,STAMMUMFANG,STAMMUMFANG_TXT,BAUMHOEHE,BAUMHOEHE_TXT,KRONENDURCHMESSER,KRONENDURCHMESSER_TXT,BAUMNUMMER,lon,lat,source,outdated';
 
 log_info("[Linz] Downloading data");
-$data = file_get_contents('http://data.linz.gv.at/katalog/umwelt/baumkataster/2020/FME_BaumdatenBearbeitet_OGD_20200225.csv');
+$data = file_get_contents('https://data.linz.gv.at/katalog/umwelt/baumkataster/2022/FME_BaumdatenBearbeitet_OGD_20220202.csv');
 if($data === false) {
 	$error = 1;
 	log_info("[Linz] - Error downloading data");
