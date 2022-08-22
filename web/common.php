@@ -69,27 +69,15 @@ function db_query_resultset($query, $parameters = array()) {
 function db_error($error, $stacktrace, $query, $parameters) {
 	global $config;
 
-	/*
-	$report_email = $config['error_mails_rcpt'];
-	$email_from = $config['error_mails_from'];
+	$stacktrace_string = print_r($stacktrace, true);
+	$parameters_string = print_r($parameters, true);
 
-	ob_start();
-	require(dirname(__FILE__) . '/mail_db_error.php');
-	$message = ob_get_contents();
-	ob_end_clean();
-
-	$headers = "From: $email_from\n";
-	$headers .= "Content-Type: text/plain; charset = \"UTF-8\";\n";
-	$headers .= "Content-Transfer-Encoding: 8bit\n";
-
-	$subject = 'Database error';
-
-	mail($report_email, $subject, $message, $headers);
-	*/
+	$message = "Database error:\n\n$error\n\n$stacktrace_string\n\n$query\n\n$parameters_string";
+	log_info($message);
 
 	header('HTTP/1.1 500 Internal Server Error');
-	echo "A database error has just occurred. Please don't freak out, the administrator has already been notified.";
-	die();
+	echo "A database error has occurred.\n";
+	die(1);
 }
 
 function get_height_index($height) {
