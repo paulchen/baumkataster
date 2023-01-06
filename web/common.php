@@ -91,7 +91,9 @@ function get_treetop_diameter($diameter) {
 }
 
 function download_url($url) {
-	for($i=0; $i<5; $i++) {
+	$delay = 5;
+	$retries = 5;
+	for($i=0; $i<$retries; $i++) {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -105,8 +107,8 @@ function download_url($url) {
 
 		$error = curl_error($ch);
 		curl_close($ch);
-		log_info("Unable to download $url ($error), retrying in 60 seconds...");
-		sleep(5);
+		log_info("Unable to download $url ($error), retrying in $delay seconds...");
+		sleep($delay);
 	}
 	log_info("Unable to download $url, giving up now");
 	return false;
