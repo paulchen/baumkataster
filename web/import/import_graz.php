@@ -94,7 +94,7 @@ foreach($urls as $url) {
 	$counter++;
 	log_info("[Graz] Processing row $counter/$total");
 
-	$data = file_get_contents($url);
+	$data = download_url($url);
 	if($data === false) {
 		log_info("[Graz] Could not download $url, aborting...");
 		$error = 1;

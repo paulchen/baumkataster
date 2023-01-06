@@ -22,10 +22,13 @@ function create_name($gattung, $art, $sorte, $name_deutsch) {
 function get_data_url($id) {
 	$url = "https://www.data.gv.at/katalog/api/3/action/package_show?id=$id";
 
-	$data = @file_get_contents($url);
-	$json = @json_decode($data, true);
+	$data = download_url($url);
+	if (!$data) {
+		return false;
+	}
 
-	if ($data === false || $json == null || !isset($json['result']) || !isset($json['result']['resources']) || !is_array($json['result']['resources']) 
+	$json = @json_decode($data, true);
+	if ($json == null || !isset($json['result']) || !isset($json['result']['resources']) || !is_array($json['result']['resources']) 
 			|| count($json['result']['resources']) == 0 || !isset($json['result']['resources'][0]['url'])) {
 		return false;
 	}
@@ -42,11 +45,13 @@ if($url === false) {
 }
 else {
 	log_info("[Linz] Downloading data from URL: $url");
-	$data = file_get_contents($url);
+	$data = download_url($url);
 }
 if($data === false) {
 	$error = 1;
-	log_info("[Linz] Error downloading data");
+	if($url !== false) {
+		log_info("[Linz] Error downloading data");
+	}
 }
 else {
 	$data = iconv('ISO-8859-1', 'UTF-8', $data);

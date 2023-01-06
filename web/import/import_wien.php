@@ -9,7 +9,7 @@ $columns = 'FID,OBJECTID,SHAPE,BAUM_ID,DATENFUEHRUNG,BEZIRK,OBJEKT_STRASSE,GEBIE
 
 log_info("[Wien] Downloading data");
 
-$data = file_get_contents('https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BAUMKATOGD&srsName=EPSG:4326&outputFormat=csv');
+$data = download_url('https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BAUMKATOGD&srsName=EPSG:4326&outputFormat=csv');
 if($data === false) {
 	log_info('[Wien] Could not download data, aborting');
 	$error = 1;
