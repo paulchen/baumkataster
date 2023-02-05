@@ -59,7 +59,7 @@ else {
 	log_info("[Linz] Parsing data");
 
 	$csv = new Csv();
-	$csv->separator = ';';
+	$csv->separator = ',';
 	$csv->parse_data($data);
 	unset($data);
 
@@ -77,31 +77,31 @@ else {
 		}
 
 		$new = array();
-		$new[] = $row[10] . $row[11];
-		$new[] = create_name($row[2], $row[3], $row[4], $row[5]);
-		$new[] = $row[8];
-		$new[] = $row[8] . ' cm';
-		if (trim($row[6]) != '') {
-			$new[] = get_height_index($row[6]);
-			$new[] = $row[6] . ' m';
-		}
-		else {
-			$new[] = '0';
-			$new[] = '';
-		}
+		$new[] = $row[11] . $row[12]; // BAUM_ID
+		$new[] = create_name($row[2], $row[4], $row[5], $row[6]); // GATTUNG_ART
+		$new[] = $row[9]; // STAMMUMFANG
+		$new[] = $row[9] . ' cm'; // STAMMUMFANG_TXT
 		if (trim($row[7]) != '') {
-			$new[] = get_treetop_diameter($row[7]);
-			$new[] = $row[7] . ' m';
+			$new[] = get_height_index($row[7]); // BAUMHOEHE
+			$new[] = $row[7] . ' m'; // BAUMHOEHE_TXT
 		}
 		else {
-			$new[] = '0';
-			$new[] = '';
+			$new[] = '0'; // BAUMHOEHE
+			$new[] = ''; // BAUMHOEHE_TXT
 		}
-		$new[] = $row[1];
-		$new[] = $row[12];
-		$new[] = $row[13];
-		$new[] = 'LINZ';
-		$new[] = 0;
+		if (trim($row[8]) != '') {
+			$new[] = get_treetop_diameter($row[8]); // KRONENDURCHMESSER
+			$new[] = $row[8] . ' m'; // KRONENDURCHMESSER_TXT
+		}
+		else {
+			$new[] = '0'; // KRONENDURCHMESSER
+			$new[] = ''; // KRONENDURCHMESSER_TXT
+		}
+		$new[] = $row[1]; // BAUMNUMMER
+		$new[] = $row[13]; // lon
+		$new[] = $row[14]; // lat
+		$new[] = 'LINZ'; // source
+		$new[] = 0; // outdated
 
 		$columns_count = count($new);
 		for($a=0; $a<$columns_count; $a++) {
