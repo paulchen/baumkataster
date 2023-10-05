@@ -19,7 +19,7 @@ function log_info($message) {
 	}
 
 	$date = date('[Y-m-d H:i:s]');
-	fprintf($log, "$date - $message\n");
+	fprintf($log, "%s - %s\n", $date, $message) or var_dump(debug_backtrace());
 }
 
 function db_query_single($query, $parameters = array()) {
