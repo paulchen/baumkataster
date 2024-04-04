@@ -72,9 +72,21 @@ function process_tree($feature) {
 
 function parse_data($url, $data) {
 	$json = json_decode($data);
+	if(isset($json->error)) {
+		$message = "Unknown error occurred while retrieving $url";
+		if(isset($json->error->message)) {
+			$message = "Error occurred while retrieving $url: " . $json->error->message;
+		}
+		log_info($message);
+		return false;
+	}
 	if(isset($json->exceededTransferLimit) && $json->exceededTransferLimit == 'true') {
-		// TODO
-		die($url);
+		log_info('Exceeded transfer limit, giving up now');
+		return false;
+	}
+	if(!isset($json->features)) {
+		log_info('Required key "features" not found in JSON, giving up now');
+		return false;
 	}
 
 	$features = $json->features;
@@ -82,6 +94,8 @@ function parse_data($url, $data) {
 	foreach($features as $feature) {
 		process_tree($feature);
 	}
+
+	return true;
 }
 
 log_info("[Graz] Downloading and importing data");
@@ -100,7 +114,10 @@ foreach($urls as $url) {
 		$error = 1;
 		break;
 	}
-	parse_data($url, $data);
+	if(!parse_data($url, $data)) {
+		$error = 1;
+		break;
+	}
 
 	sleep(.1);
 }
